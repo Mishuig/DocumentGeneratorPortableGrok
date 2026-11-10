@@ -1,0 +1,286 @@
+<Window x:Class="DocumentGenerator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:DocumentGenerator"
+        Title="Document Generator" Height="820" Width="1280"
+        MinHeight="60" MinWidth="60"
+        WindowStartupLocation="CenterScreen"
+        Icon="App.ico"
+        Background="#E8EEF5"
+        FontSize="{DynamicResource FsBase}">
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="Accent" Color="#0D9488"/>
+        <SolidColorBrush x:Key="AccentDark" Color="#0F766E"/>
+        <SolidColorBrush x:Key="AccentSoft" Color="#CCFBF1"/>
+        <SolidColorBrush x:Key="PanelBg" Color="#F8FAFC"/>
+        <SolidColorBrush x:Key="CardBg" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="BorderSoft" Color="#E2E8F0"/>
+        <SolidColorBrush x:Key="TextMain" Color="#0F172A"/>
+        <SolidColorBrush x:Key="TextMuted" Color="#64748B"/>
+        <SolidColorBrush x:Key="Success" Color="#059669"/>
+
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="{DynamicResource BtnPad}"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="#E2E8F0"/>
+            <Setter Property="Foreground" Value="#0F172A"/>
+            <Setter Property="FontSize" Value="{DynamicResource FsBase}"/>
+            <Setter Property="Height" Value="{DynamicResource BtnH}"/>
+            <Setter Property="MinHeight" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.9"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Bd" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PrimaryButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="{StaticResource Accent}"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style x:Key="SuccessButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="{StaticResource Success}"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style x:Key="DangerButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#FEF2F2"/>
+            <Setter Property="Foreground" Value="#DC2626"/>
+        </Style>
+        <Style x:Key="GhostButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#CBD5E1"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#F1F5F9"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="IconButton" TargetType="Button">
+            <Setter Property="Padding" Value="6,2"/>
+            <Setter Property="Margin" Value="2,0"/>
+            <Setter Property="MinHeight" Value="{DynamicResource IconSize}"/>
+            <Setter Property="MinWidth" Value="{DynamicResource IconSize}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#64748B"/>
+            <Setter Property="FontSize" Value="{DynamicResource FsBase}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#E2E8F0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="{DynamicResource InputPad}"/>
+            <Setter Property="FontSize" Value="{DynamicResource FsBase}"/>
+            <Setter Property="BorderBrush" Value="#99F6E4"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="#F0FDFA"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8">
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid x:Name="RootGrid" SizeChanged="RootGrid_SizeChanged">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Top bar: logo only -->
+        <Border x:Name="HeaderBar" Background="White" BorderBrush="#E2E8F0" BorderThickness="0,0,0,1"
+                Padding="{DynamicResource HeaderPad}">
+            <Image Source="Logo.png" Height="{DynamicResource LogoH}" HorizontalAlignment="Left" VerticalAlignment="Center"
+                   RenderOptions.BitmapScalingMode="HighQuality" SnapsToDevicePixels="True"/>
+        </Border>
+
+        <!-- Body: positions of the three cards are set in code (MainWindow.Responsive.cs) -->
+        <Grid x:Name="BodyGrid" Grid.Row="1" Margin="{DynamicResource BodyMargin}">
+
+            <!-- Library -->
+            <Border x:Name="LibraryCard" Background="White" CornerRadius="14" Padding="{DynamicResource CardPad}"
+                    BorderBrush="#E2E8F0" BorderThickness="1">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top" Margin="0,0,0,8">
+                        <local:FitTextBlock Text="Бібліотека шаблонів" FontSize="{DynamicResource FsHead}"
+                                            FontWeight="SemiBold" Foreground="#0F172A"/>
+                        <TextBox x:Name="SearchBox" Margin="0,8,0,0"
+                                 TextChanged="SearchBox_TextChanged" Tag="search">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                                    <Setter Property="Background" Value="#F8FAFC"/>
+                                    <Setter Property="BorderBrush" Value="#E2E8F0"/>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                    </StackPanel>
+                    <ListBox x:Name="TemplatesList" BorderThickness="0" Background="Transparent"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                             SelectionChanged="TemplatesList_SelectionChanged">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="Padding" Value="0"/>
+                                <Setter Property="Margin" Value="0,3"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <Border x:Name="Bd" Background="#F8FAFC" CornerRadius="10" Padding="{DynamicResource ItemPad}"
+                                                    BorderBrush="Transparent" BorderThickness="1">
+                                                <ContentPresenter/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter TargetName="Bd" Property="Background" Value="#F0FDFA"/>
+                                                    <Setter TargetName="Bd" Property="BorderBrush" Value="#99F6E4"/>
+                                                </Trigger>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="Bd" Property="Background" Value="#F1F5F9"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel>
+                                    <Button DockPanel.Dock="Right" Content="✎"
+                                            Style="{StaticResource IconButton}"
+                                            ToolTip="Перейменувати шаблон"
+                                            Click="TemplateRenamePencil_Click"
+                                            Tag="{Binding}"
+                                            Foreground="#0D9488"/>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <local:FitTextBlock Text="{Binding Name}" FontWeight="SemiBold" Foreground="#0F172A"/>
+                                        <local:FitTextBlock Text="{Binding Category}" FontSize="{DynamicResource FsTiny}" Foreground="#94A3B8"/>
+                                    </StackPanel>
+                                </DockPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </DockPanel>
+            </Border>
+
+            <!-- Center form -->
+            <Border x:Name="FormCard" Background="White" CornerRadius="14" Padding="{DynamicResource FormPad}"
+                    BorderBrush="#E2E8F0" BorderThickness="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel>
+                        <local:FitTextBlock x:Name="SelectedTemplateTitle" Text="Оберіть шаблон"
+                                            FontSize="{DynamicResource FsTitle}" FontWeight="SemiBold" Foreground="#0F172A"/>
+                        <local:FitTextBlock x:Name="TemplateInfo" Text=""
+                                            Foreground="#64748B" Margin="0,2,0,6" FontSize="{DynamicResource FsSmall}"/>
+                    </StackPanel>
+
+                    <Border Grid.Row="1" Height="1" Background="#E2E8F0" Margin="0,0,0,10"/>
+
+                    <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel x:Name="FieldsPanel"
+                                    AllowDrop="True"
+                                    Drop="FieldsPanel_Drop"
+                                    DragOver="FieldsPanel_DragOver"/>
+                    </ScrollViewer>
+
+                    <Grid Grid.Row="3" Margin="{DynamicResource BtnGridMargin}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <local:FitButton Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="{DynamicResource BtnGap}" Text="Відкрити шаблон" Click="OpenTemplate_Click" Style="{StaticResource GhostButton}"/>
+                        <local:FitButton Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="3" Margin="{DynamicResource BtnGap}" Text="Очистити поля" Click="ClearFields_Click" Style="{StaticResource GhostButton}"/>
+                        <local:FitButton Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="{DynamicResource BtnGap}" Text="Перегляд" Click="Preview_Click" Style="{StaticResource PrimaryButton}"/>
+                        <local:FitButton Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="3" Margin="{DynamicResource BtnGap}" Text="Зберегти документ" Click="Generate_Click" Style="{StaticResource SuccessButton}"/>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- Actions -->
+            <Border x:Name="ActionsCard" Background="White" CornerRadius="14" Padding="{DynamicResource CardPad}"
+                    BorderBrush="#E2E8F0" BorderThickness="1">
+                <DockPanel>
+                    <local:FitTextBlock x:Name="ActionsTitle" DockPanel.Dock="Top" Text="Дії та Управління"
+                                        FontSize="{DynamicResource FsHead}" FontWeight="SemiBold" Foreground="#0F172A" Margin="0,0,0,10"/>
+                    <UniformGrid x:Name="ActionsGrid" Columns="1" VerticalAlignment="Top">
+                        <local:FitButton Margin="{DynamicResource BtnGap}" Text="Імпортувати DOCX" Click="ImportTemplate_Click" Style="{StaticResource PrimaryButton}"/>
+                        <local:FitButton Margin="{DynamicResource BtnGap}" Text="Резервна копія" Click="Backup_Click" Style="{StaticResource GhostButton}"/>
+                        <local:FitButton Margin="{DynamicResource BtnGap}" Text="Оновити" Click="Refresh_Click" Style="{StaticResource GhostButton}"/>
+                        <local:FitButton Margin="{DynamicResource BtnGap}" Text="Видалити шаблон" Click="Delete_Click" Style="{StaticResource DangerButton}"/>
+                    </UniformGrid>
+                </DockPanel>
+            </Border>
+        </Grid>
+
+        <!-- Ultra-compact mode: only the logo fits -->
+        <Image x:Name="CompactLogo" Grid.RowSpan="2" Source="Logo.png" Margin="6" Stretch="Uniform"
+               Visibility="Collapsed" RenderOptions.BitmapScalingMode="HighQuality"/>
+    </Grid>
+</Window>

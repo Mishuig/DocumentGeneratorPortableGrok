@@ -1,0 +1,91 @@
+<Window x:Class="DocumentGenerator.SaveChoiceWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Збереження документа" Height="380" Width="480"
+        MinHeight="340" MinWidth="420"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Background="White">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel>
+            <TextBlock Text="Збереження документа" FontSize="17" FontWeight="SemiBold" Foreground="#0F172A"/>
+            <TextBlock Text="Як зберегти документ?" FontSize="14" Foreground="#64748B" Margin="0,6,0,0"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Margin="0,20,0,0">
+            <Button Click="AutoName_Click" Margin="0,0,0,12" Cursor="Hand" HorizontalContentAlignment="Stretch">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1"
+                                CornerRadius="10" Padding="16">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#F0FDFA"/>
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="#99F6E4"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="📄" FontSize="18" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                    <StackPanel>
+                        <TextBlock Text="Зберегти зі згенерованою назвою" FontWeight="SemiBold" FontSize="13" Foreground="#0F172A"/>
+                        <TextBlock x:Name="AutoNamePreview" Text="" Foreground="#64748B" FontSize="12" Margin="0,4,0,0" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </StackPanel>
+            </Button>
+
+            <Button Click="CustomName_Click" Cursor="Hand" HorizontalContentAlignment="Stretch">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1"
+                                CornerRadius="10" Padding="16">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#F0FDFA"/>
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="#99F6E4"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="📝" FontSize="18" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                    <StackPanel>
+                        <TextBlock Text="Обрати назву файлу самостійно" FontWeight="SemiBold" FontSize="13" Foreground="#0F172A"/>
+                    </StackPanel>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <!-- Secondary cancel button — right-aligned, neutral style (NOT primary CTA) -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,24,0,0">
+            <Button Content="Скасувати" Click="Cancel_Click" IsCancel="True"
+                    Padding="20,10" Cursor="Hand"
+                    Background="#F1F5F9" Foreground="#0F172A" BorderThickness="0"
+                    MinWidth="110">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                                CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#E2E8F0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

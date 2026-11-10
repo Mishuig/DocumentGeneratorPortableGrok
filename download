@@ -1,0 +1,10 @@
+bin/
+obj/
+.vs/
+data/
+exports/
+backups/
+logs/
+*.user
+*.suo
+publish/

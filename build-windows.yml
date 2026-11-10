@@ -1,0 +1,75 @@
+name: Build portable Windows app
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - '**.cs'
+      - '**.xaml'
+      - '**.csproj'
+      - '**.ps1'
+      - '**.cmd'
+      - '**.png'
+      - '**.ico'
+      - 'samples/**'
+      - '.github/workflows/build-windows.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Install .NET 10 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore .\DocumentGenerator.csproj --runtime win-x64
+
+      - name: Publish self-contained Windows x64 app
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $package = Join-Path $env:GITHUB_WORKSPACE 'publish\DocumentGenerator-portable-win-x64'
+          New-Item -ItemType Directory -Force -Path $package | Out-Null
+          dotnet publish .\DocumentGenerator.csproj `
+            --configuration Release `
+            --runtime win-x64 `
+            --self-contained true `
+            --no-restore `
+            -p:PublishSingleFile=true `
+            -p:IncludeNativeLibrariesForSelfExtract=true `
+            -p:EnableCompressionInSingleFile=true `
+            -p:DebugType=None `
+            -p:DebugSymbols=false `
+            --output $package
+          if ($LASTEXITCODE -ne 0) { throw 'dotnet publish failed.' }
+          $exe = Join-Path $package 'DocumentGenerator.exe'
+          if (-not (Test-Path $exe)) { throw 'DocumentGenerator.exe was not produced.' }
+          Copy-Item .\README.md (Join-Path $package 'README.txt')
+          Copy-Item .\App.ico (Join-Path $package 'App.ico')
+          Copy-Item .\create-shortcut.ps1 (Join-Path $package 'create-shortcut.ps1')
+          Copy-Item .\Create-Shortcut.cmd (Join-Path $package 'Create-Shortcut.cmd')
+          if (Test-Path .\samples) {
+            Copy-Item .\samples (Join-Path $package 'samples') -Recurse -Force
+          }
+          $zip = Join-Path $env:GITHUB_WORKSPACE 'publish\DocumentGenerator-0.5.4-portable-win-x64.zip'
+          Compress-Archive -Path (Join-Path $package '*') -DestinationPath $zip -Force
+          Write-Host "Portable package created: $zip"
+
+      - name: Upload portable ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: DocumentGenerator-0.5.4-portable-win-x64
+          path: publish/DocumentGenerator-0.5.4-portable-win-x64.zip
+          if-no-files-found: error
+          retention-days: 14
